@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="信号检测,">
+
+
+
+
+
+
+
+
+
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://xxxxxxx.xxx"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+<meta name="description" content="整理了赵树杰，赵建勋老师的《信号检测与估计》中的内容。第一篇整理信号检测问题。">
+<meta name="keywords" content="信号检测">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信号检测与估计--1">
+<meta property="og:url" content="http://huagliu.github.io/2021/11/20/信号检测与估计--1/index.html">
+<meta property="og:site_name" content="HUAG ZONE">
+<meta property="og:description" content="整理了赵树杰，赵建勋老师的《信号检测与估计》中的内容。第一篇整理信号检测问题。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-11-20T03:02:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="信号检测与估计--1">
+<meta name="twitter:description" content="整理了赵树杰，赵建勋老师的《信号检测与估计》中的内容。第一篇整理信号检测问题。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huagliu.github.io/2021/11/20/信号检测与估计--1/">
+
+
+
+
+
+  <title>信号检测与估计--1 | HUAG ZONE</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA<%%%%%%%%>', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HUAG ZONE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://huagliu.github.io/2021/11/20/信号检测与估计--1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huag">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HUAG ZONE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">信号检测与估计--1</h1>
+        
+
+        <div class="post-meta">
+	
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-11-20T10:15:00+08:00">
+                2021-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Radar/" itemprop="url" rel="index">
+                    <span itemprop="name">Radar</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/11/20/信号检测与估计--1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2021/11/20/信号检测与估计--1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>整理了赵树杰，赵建勋老师的《信号检测与估计》中的内容。第一篇整理信号检测问题。</p>
+<a id="more"></a>
+<h2 id="信号检测"><a href="#信号检测" class="headerlink" title="信号检测"></a>信号检测</h2><p>研究在噪声干扰背景下，所关心信号（已知常数）属于哪种状态的最佳判决问题，所用的主要数学工具是假设检验理论。下面整理二元信号检测问题的贝叶斯准则和奈曼－皮尔逊准则。</p>
+<h3 id="贝叶斯准则"><a href="#贝叶斯准则" class="headerlink" title="贝叶斯准则"></a>贝叶斯准则</h3><ul>
+<li><p>问题描述</p>
+<p>假设信号有两种不同的观测模型，分别记为 $ H _0 $ 和 $ H _1 $，若假设 $ H _j $ 为真而判决 $ H _i $ 成立的代价为 $ c _{ij} $ ，设计使得判决付出的总平均代价</p>
+<script type="math/tex; mode=display">
+C := \sum_{j=0}^1 \sum_{i=0}^1 c_{ij} P(H_j )P(H_i |H_j ),</script><p>最小的判决器。其中，$ c _{ij} $ 给定，$ P(H _j )$ 已知，$ P(H _i |H _j ) = \int_{R_i }p ( x | H _j ) d x $ 。</p>
+</li>
+<li><p>基本方法</p>
+<p>根据 $C$ 的取值正负的特性，可以选择使 $ H _0 $ 成立的判决域 $ R _0 $ 为</p>
+<script type="math/tex; mode=display">
+\lambda (x) : = \frac{p(x|H _1)}{p(x|H _0)} < \eta : = \frac{P(H _0)(c_{10}- c_{00})}{P(H _1 )(c_{10}- c_{11})}</script><p>$ \lambda (x) $ 称为<strong>似然比函数</strong>，$ \eta $ 称为<strong>似然比检测门限</strong>。</p>
+<p>对上式进一步化简左端可变为$x$ 的最简函数 $ l (x) $ ，称为<strong>检验统计量</strong>，右端可化简为常数 $ \gamma $ ，称为<strong>检测门限</strong>。</p>
+</li>
+<li><p>例子 ［1，例3.3.1］</p>
+<p>假设 </p>
+<script type="math/tex; mode=display">
+H_0 : x (t) = n (t), \quad H _1 : x (t) = A + n (t) , \quad  0\leq t \leq T,</script><p>其中，$A$ 已知，$ n (t) $ 是均值为零、方差为 $ \sigma _n ^2  $ 的高斯噪声。在 0～T 内 $N$ 次采样后得到</p>
+<script type="math/tex; mode=display">
+H_0 : x_k = n_k , \quad H _1 : x_k  = A + n_k, \quad k = 1,2,\cdots N.</script></li>
+</ul>
+<p>在两种假设下，由观测的独立性，$N$ 维观测 $ x = (x _1 , \cdots,x _N ) $ 的概率密度函数为</p>
+<script type="math/tex; mode=display">
+p ( x | H _0 ) = \prod_{k=1}^N p ( x _k |H _0) = \left(\frac{1}{2\pi \sigma _n ^2 } \right)^{\frac{N}{2} }\exp\left(- \sum_{k=1}^N \frac{x _k ^2 }{2\sigma _n ^2 } \right),</script><script type="math/tex; mode=display">
+p ( x | H _1 ) = \prod_{k=1}^N p ( x _k |H _1) = \left(\frac{1}{2\pi \sigma _n ^2 } \right)^{\frac{N}{2} }\exp\left(- \sum_{k=1}^N \frac{( x _k- A )^2 }{2\sigma _n ^2 } \right),</script><p>判决表达式为（接收 $H_0 $）</p>
+<script type="math/tex; mode=display">
+l (x) : = \frac{1}{N}\sum_{k=1}^N x _k < \gamma : = \frac{\sigma ^2 _n }{NA}\ln \eta + \frac{A}{2},</script><p>其中，$ \eta $ 为已知的似然比检测门限。</p>
+<p>由于 $ x$ 是高斯的，因此 $ l (x) $ 也是高斯的，易求出</p>
+<script type="math/tex; mode=display">
+E[l | H _0 ]=0, \quad E[l| H_1 ] = A.</script><script type="math/tex; mode=display">
+Var(l|H_0 ) = \frac{\sigma_n ^2 }{N}, \quad Var(l|H_1 ) = \frac{\sigma_n ^2 }{N}.</script><p>于是根据判决表示式，</p>
+<script type="math/tex; mode=display">
+P(H_1 | H_0 ) = \int_\gamma ^{\infty }p ( l| H _0 ) d l = Q[\ln \eta /d + \frac{d}{2} ]</script><script type="math/tex; mode=display">
+P(H _1 | H _1 )=  \int_\gamma ^{\infty }p ( l| H _1 ) d l = Q[\ln \eta /d - \frac{d}{2} ] = Q[Q^{-1}[P(H _1 | H _0 )] - d],</script><p>其中，$ d : = \frac{NA^2 }{\sigma_n ^2 }$ 称作<strong>功率信噪比</strong>，$ Q[u] $ 是标准正态分布从 $u$ 到正无穷的积分。</p>
+<p>注：记 $P_F : = P(H_1 | H_0 ) $ ，$P_D : = P(H_1 | H_1 ) $，则对于给定 $ P_F $，$P_D$ 随 $d$ 单调增加；常用<strong>接收机工作特性</strong>描述信号检验的性能，即反映 $ P_F$、$P_D$、$\eta $ 和 $d$ 之间的关系；信噪比 $d$ 在信号检测中占有非常重要的地位，是接收机的主要技术指标之一。</p>
+<ul>
+<li><p>推论</p>
+<ul>
+<li>当 $ c_{01}=c_{10}=1$，$c_{00}=c_{11}=0$ 时贝叶斯准则就成为<strong>最小平均错误概率准则</strong>；</li>
+<li>当 $ c_{10}-c_{00} = c_{01}-c_{11} $ 时贝叶斯准则就成为<strong>最大后验概率准则</strong>；</li>
+</ul>
+</li>
+</ul>
+<h3 id="奈曼－皮尔逊准则"><a href="#奈曼－皮尔逊准则" class="headerlink" title="奈曼－皮尔逊准则"></a>奈曼－皮尔逊准则</h3><ul>
+<li><p>问题描述</p>
+<p>在一些雷达信号检测问题中，我们既不能预先知道先验 $ P(H _j) $ 又不能知道代价因子 $ c _{ij} $，于是人们提出在虚警率 $ P(H _1 | H _0) = \alpha $ 的约束下， 使得正确判决 $ P(H _1 | H _1 ) $ 最大的准则。</p>
+</li>
+<li><p>基本方法</p>
+<p>使用Lagrange乘子法，结合目标函数的正负性分析，选择使 $ H _0 $ 成立的判决域为</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\lambda (x) = \frac{p(x|H _1)}{p(x|H _0)} < \mu</script><p>  其中，$ \mu $ 为乘子，由 $ \alpha = \int_\mu ^{\infty } p ( \lambda | H _0 ) d \lambda  $ 确定。</p>
+<ul>
+<li>注：如果在贝叶斯准则中令 $ P(H _1 )(c_{01}-c_{11}) = 1$，$ P ( H _0 ) ( c_{10}-c_{00}) = \mu $ ，则贝叶斯准则成为奈曼－皮尔逊准则。</li>
+</ul>
+<h3 id="参量信号的检测"><a href="#参量信号的检测" class="headerlink" title="参量信号的检测"></a>参量信号的检测</h3><p>在上面两种检测中，我们假设两种信号模型中信号是确知信号，在实际应用场景中信号一般会带有未知参数 $ \theta $ ，此时的信号检测称作参量信号的统计检测。参量信号检测的核心就是消除参数 $ \theta $ 的影响，将问题转化为确知信号的检测问题上。</p>
+<ul>
+<li><p>广义似然比函数法<br>若参数是非随机的，此时观测 $x$ 的概率密度函数 $ p( x | \theta ; H_0 ) $ 与 $ p ( x| \theta ; H_1 ) $ 与 $ \theta $ 有关，可以先利用最大似然估计方法求出 $ \hat{\theta } $ 再用确知信号的方法进行检测。</p>
+</li>
+<li><p>贝叶斯方法<br>若参数是随机的，且先验 $ p (\theta) $ 已知，则可以利用 $ p(x|H_0 ) = \int_{\Theta} p(x| \theta ; H_0) p(\theta ) d \theta $ 的方法消除参数 $\theta$ 的影响。</p>
+</li>
+</ul>
+<h3 id="信号的序列检测"><a href="#信号的序列检测" class="headerlink" title="信号的序列检测"></a>信号的序列检测</h3><p>由于功率信噪比与观测次数正相关，功率信噪比又与判决的准确性正相关，于是如果可以边观测边检测则可大大提高检测效率，这样的检测方式称作信号的序列检测，详见 ［1，3.8节］。</p>
+<h2 id="信号波形检测"><a href="#信号波形检测" class="headerlink" title="信号波形检测"></a>信号波形检测</h2><p>在前面的信号检测中，信号一般是一个固定或含参常数 $A$ ；而在信号波形检测中，信号一般是时间的函数 $ s (t) $ 。</p>
+<p>信号波形检测的核心是对观测 $ x (t) $ 和信号 $ s (t) $ 用正交基展开，而后用信号检测的手段设计检测系统。为了解决展开系数互相关的问题，一般采用卡亨南－洛维展开式。特别地，在白噪声情况下，任意正交函数集对平稳随机过程 $ x(t) $ 进行展开的系数都是互不相关的。因此，在接下来的讨论中考虑零均值、功率谱密度为 $ \frac{N_0 }{2} $ 的高斯白噪声 $ n (t)$。</p>
+<h3 id="一般二元信号波形检测"><a href="#一般二元信号波形检测" class="headerlink" title="一般二元信号波形检测"></a>一般二元信号波形检测</h3><ul>
+<li><p>信号模型</p>
+<script type="math/tex; mode=display">
+H _0 : x (t) = s _0 (t) + n (t) , \quad H _1 : x (t) = s _1 (t) + n (t) , \quad 0 \leq t \leq T.</script></li>
+<li><p>判决表示</p>
+<p>用正交函数集对 $ x (t) $、$ s_0 (t) $、$s_1 (t) $、$n (t) $ 进行展开，并运用似然比检验手段得到</p>
+<script type="math/tex; mode=display">
+\ln \lambda (x_N ): = \frac{2}{N_0 }  \sum_{k=1}^N x _k s_{1k} - \frac{2}{N_0 }  \sum_{k=1}^N x _k s_{0k} - \frac{1}{N_0 }  \sum_{k=1}^N s_{1k}^2 + \frac{1}{N_0 }\sum_{k=1}^N s_{0k}^2 < \ln \eta , \quad H_0\text{( 成立)}.</script><p>令 $ N \rightarrow \infty $ 得</p>
+<script type="math/tex; mode=display">
+l (x(t) ): = \int_0 ^T x (t) s _1 (t) d t - \int _0 ^T x (t) s _0 (t) d t < \gamma : =  \frac{N _0 }{2}\ln \eta + \frac{1}{2} (E_{s _1 }- E_{s _0 })</script></li>
+<li><p>性能分析</p>
+<p>由定义 $ l (x(t) ) $ 是一个高斯随机变量，可以求得</p>
+<script type="math/tex; mode=display">
+E[l| H _0 ] = \rho \sqrt{E_{s _0}E_{s_1}}- E_{s_0},\quad Var(l|H _0 ) = \frac{N _0 }{2}E_{s_1} + \frac{N _0 }{2}E_{s_0} - N _0 \rho \sqrt{E_{s _0}E_{s_1}},</script><p>其中，$ \rho : = \frac{1}{\sqrt{E_{s _0}E_{s_1}}} \int _0 ^T s _1 (t) s _0 (t) d t$ 为<strong>波形相关系数</strong>。类似地，可以求出 $ E[l| H_1 ] $ 和 $ Var(l|H_1 )$。综上，有</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+P _F : = P(H _1 | H _0 )= Q[\ln \eta /d + \frac{d}{2} ], \quad P _D : = P(H _1 | H _1 ) = Q[\ln \eta /d - \frac{d}{2} ] = Q[Q ^{-1} (P_F) - d],</script><p>其中，偏移系数为</p>
+<script type="math/tex; mode=display">
+d ^2 = \frac{(E[l|H _1 ] - E[l|H _0 ])^2 }{Var(l|H _0 )}= \frac{N _0 }{2}(E_{s_1}+E_{s_0}-2 \rho\sqrt{E_{s _0}E_{s_1}}).</script><ul>
+<li>最佳波形设计<br>信号的检测性能与偏移系数 $ d^2 $ 正相关。因此在高斯白噪声情况下，对于确知二元信号的波形检测，当两个信号设计成相反的信号时，即 $ s _0 (t) = -s _1 (t) $ 时，偏移系数 $ d^2 = \frac{8E _s }{N _0 } $ 最大，检测效果最好。 </li>
+</ul>
+<h3 id="参量信号波形检测"><a href="#参量信号波形检测" class="headerlink" title="参量信号波形检测"></a>参量信号波形检测</h3><p>上面讨论了确知信号的波形检测问题。但在实际问题中，信号往往带有未知参数，例如信号的相位、振幅、频率、到达时间等。类似于参量信号的检测问题，参量信号波形检测的核心也是消除参数 $ \theta $ 的影响，常用的方法有贝叶斯方法（参数先验已知）和广义似然比函数方法（参数非随机），详见［1，4.6节］。</p>
+<h3 id="匹配滤波"><a href="#匹配滤波" class="headerlink" title="匹配滤波"></a>匹配滤波</h3><p>为了改善信噪比，信号接收机（检测系统）通常要求按照匹配滤波器来设计。</p>
+<ul>
+<li><p>问题描述</p>
+<p>接收机一般由一个线性滤波器和一个判决器串联而成，在输入信号功率信噪比一定的情况下，设计线性滤波器使得输出信号的功率信噪比最大。</p>
+</li>
+<li><p>基本方法</p>
+<p>设待求滤波器为 $ H(\omega) $ ，设输入信号为</p>
+<script type="math/tex; mode=display">
+x (t) = s (t) + n (t) ,</script></li>
+</ul>
+<p>其中，$ s(t) $ 是确知信号，$ n (t) $ 是均值为零功率谱密度为 $ P _n (\omega) $ 的平稳噪声。设输出信号为</p>
+<script type="math/tex; mode=display">
+y (t) = s _o (t) + n _o (t),</script><p>则 $ s_o (t) = IFT[H (\omega)S (\omega) ] $，$ P _{n _o }(\omega) = |H (\omega) |^2 P _n (\omega) $。</p>
+<blockquote>
+<p>定义（滤波器的输出功率信噪比）</p>
+<script type="math/tex; mode=display">
+SNR_o = \frac{s _o (t) \text{ 的峰值功率}}{n _o (t) \text{ 的平均功率}} = \frac{|s _o (t_0 ) |^2 }{\frac{1}{2\pi} \int^{\infty }_{-\infty }|H (\omega) |^2 P _n (\omega) d \omega }</script></blockquote>
+<p>利用 Cauchy-Schwarz 不等式可以得到</p>
+<script type="math/tex; mode=display">
+SNR _o \leq \frac{1}{2\pi} \int^{\infty }_{-\infty }\frac{|S (\omega)|^2 }{P _n (\omega) } d \omega ,</script><p>取等当且仅当</p>
+<script type="math/tex; mode=display">
+H (\omega) = \frac{\alpha S^*(\omega)}{P _n (\omega)}e^{-j\omega t_0}.</script><p>特别地，对于白噪声 $ n (t) $， $ P_n (\omega) = \frac{N_0 }{2} $，匹配滤波器的系统函数为</p>
+<script type="math/tex; mode=display">
+H (\omega) = kS^* (\omega) e^{-j \omega t_0 }, \quad h (t) = ks^*(t _0 - t ),</script><p>最大输出功率信噪比为</p>
+<script type="math/tex; mode=display">
+SNR _o = \frac{1}{2\pi} \int^{\infty }_{-\infty }\frac{|S (\omega)|^2 }{P _n (\omega) } d \omega = \frac{2E _s }{N _0 }.</script><ul>
+<li>注：一般 $ t_0  $ 选择在输入信号 $ s (t) $ 的末尾时刻 $T$；在白噪声情况下，匹配滤波器的输出功率信噪比只与输入信号能量有关，与其波形无关；在白噪声情况下，$T$ 时刻匹配滤波器输出信号与相关器输出信号相等（可用于信号波形检测系统的构造）。</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>［1］赵树杰, 赵建勋. 信号检测与估计[M]. 北京：清华大学出版社(2005).</p>
+
+      
+    </div>
+    
+    
+    
+
+
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2021/11/20/信号检测与估计--1/">信号检测与估计--1</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Huag 的个人博客">Huag</a></p>
+  <p><span>发布时间:</span>2021年11月20日 - 10:15</p>
+  <p><span>最后更新:</span>2021年11月20日 - 11:02</p>
+  <p><span>原始链接:</span><a href="/2021/11/20/信号检测与估计--1/" title="信号检测与估计--1">http://huagliu.github.io/2021/11/20/信号检测与估计--1/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://huagliu.github.io/2021/11/20/信号检测与估计--1/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      </div>
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/信号检测/" rel="tag"><i class="fa fa-tag"></i> 信号检测</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/11/20/信号检测与估计--0/" rel="next" title="信号检测与估计--0">
+                <i class="fa fa-chevron-left"></i> 信号检测与估计--0
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/11/20/信号检测与估计--2/" rel="prev" title="信号检测与估计--2">
+                信号检测与估计--2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Huag</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#信号检测"><span class="nav-number">1.</span> <span class="nav-text">信号检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#贝叶斯准则"><span class="nav-number">1.1.</span> <span class="nav-text">贝叶斯准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#奈曼－皮尔逊准则"><span class="nav-number">1.2.</span> <span class="nav-text">奈曼－皮尔逊准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参量信号的检测"><span class="nav-number">1.3.</span> <span class="nav-text">参量信号的检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号的序列检测"><span class="nav-number">1.4.</span> <span class="nav-text">信号的序列检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号波形检测"><span class="nav-number">2.</span> <span class="nav-text">信号波形检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一般二元信号波形检测"><span class="nav-number">2.1.</span> <span class="nav-text">一般二元信号波形检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参量信号波形检测"><span class="nav-number">2.2.</span> <span class="nav-text">参量信号波形检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配滤波"><span class="nav-number">2.3.</span> <span class="nav-text">匹配滤波</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huag</span>
+
+  
+</div>
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'huagliu',
+            repo: 'huagliu.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '4cfb710f5ecaef4aac8e993e4f375dc7ce9fcb32',
+            
+                client_id: '5a3c8be33713b7cf5a11'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

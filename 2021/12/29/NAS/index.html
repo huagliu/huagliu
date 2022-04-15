@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OpenMediaVault,Docker,">
+
+
+
+
+
+
+
+
+
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://xxxxxxx.xxx"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+<meta name="description" content="树莓派2B自买来就吃灰，打算将其改造成为NAS，搭建过程纪录如下。">
+<meta name="keywords" content="OpenMediaVault,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NAS搭建">
+<meta property="og:url" content="http://huagliu.github.io/2021/12/29/NAS/index.html">
+<meta property="og:site_name" content="HUAG ZONE">
+<meta property="og:description" content="树莓派2B自买来就吃灰，打算将其改造成为NAS，搭建过程纪录如下。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://huagliu.github.io/2021/12/29/NAS/OMV.png">
+<meta property="og:updated_time" content="2022-01-04T10:04:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NAS搭建">
+<meta name="twitter:description" content="树莓派2B自买来就吃灰，打算将其改造成为NAS，搭建过程纪录如下。">
+<meta name="twitter:image" content="http://huagliu.github.io/2021/12/29/NAS/OMV.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huagliu.github.io/2021/12/29/NAS/">
+
+
+
+
+
+  <title>NAS搭建 | HUAG ZONE</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA<%%%%%%%%>', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HUAG ZONE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://huagliu.github.io/2021/12/29/NAS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huag">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HUAG ZONE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NAS搭建</h1>
+        
+
+        <div class="post-meta">
+	
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-12-29T00:00:00+08:00">
+                2021-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NAS/" itemprop="url" rel="index">
+                    <span itemprop="name">NAS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/12/29/NAS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2021/12/29/NAS/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>树莓派2B自买来就吃灰，打算将其改造成为NAS，搭建过程纪录如下。</p>
+<a id="more"></a>
+<h2 id="NAS-搭建"><a href="#NAS-搭建" class="headerlink" title="NAS 搭建"></a>NAS 搭建</h2><p>视频教程：</p>
+<ul>
+<li><a href="https://www.bilibili.com/video/BV1sK4y1L7gg">up主：张小七先生</a></li>
+<li><a href="https://post.smzdm.com/p/a4wmxw98/">https://post.smzdm.com/p/a4wmxw98/</a></li>
+</ul>
+<h3 id="OMV"><a href="#OMV" class="headerlink" title="OMV"></a>OMV</h3><p>视频教程：</p>
+<ul>
+<li><a href="https://www.bilibili.com/video/av39299426/">up主：张小七先生</a></li>
+<li><a href="https://tvtv.fun/pc-to-nas/">up主：谈笑有Herald</a></li>
+</ul>
+<h3 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h3><p>免费：<a href="https://www.bilibili.com/video/BV1VJ411H7Yv">ZeroTier</a></p>
+<p>收费：<a href="https://www.bilibili.com/video/BV1Cy4y1v7cw">蒲公英</a></p>
+<h2 id="docker教程及容器推荐"><a href="#docker教程及容器推荐" class="headerlink" title="docker教程及容器推荐"></a>docker教程及容器推荐</h2><p>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从Apache2.0协议开源。Docker  可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<p>容器及教程推荐：</p>
+<ul>
+<li><a href="https://hub.docker.com/r/linuxserver/transmission">transmission</a>：种子下载器<ul>
+<li>国外种子搜索网站：<a href="https://thepiratebay.org/index.html">https://thepiratebay.org/index.html</a>, <a href="https://1337x.proxyninja.org/；">https://1337x.proxyninja.org/；</a></li>
+<li>国内种子搜索网站：<a href="http://btbtt14.com/；">http://btbtt14.com/；</a></li>
+<li>学术课程种子搜索：<a href="https://academictorrents.com/；">https://academictorrents.com/；</a></li>
+</ul>
+</li>
+<li>WebDAV服务：<a href="https://www.wyr.me/post/687">Linux/Win/OMV5 安装WebDAV服务</a>；</li>
+<li><a href="https://hub.docker.com/r/gitea/gitea">gitea</a>：代码管理，类似于Github，<a href="https://docs.gitea.io/zh-cn/">gitea官网</a>；</li>
+<li><a href="https://hub.docker.com/r/zadam/trilium">trilium notes</a>：超级牛的笔记app，教程见<a href="https://link.zhihu.com/?target=https%3A//github.com/zadam/trilium/wiki">官方Wiki</a>、<a href="https://link.zhihu.com/?target=https%3A//sspai.com/post/59739">Trilium：超高自由度的个人知识库－基础篇</a>、<a href="https://link.zhihu.com/?target=https%3A//spiritx.xyz/1042.html">使用 Trilium 构建个人知识库</a>、<a href="https://link.zhihu.com/?target=https%3A//blog.csdn.net/ShiJunzhiCome/article/details/109555802">Trilium 修改数据存储目录</a>；</li>
+<li>calibreWeb：在线图书馆；</li>
+<li>Docker课程：Mosh Hamedani.<ul>
+<li><a href="https://programmingwithmosh.com">官网</a></li>
+<li>其它课程：<a href="https://www.bilibili.com/video/BV1Xy4y1n7D1?from=search&amp;seid=9425180692361085155&amp;spm_id_from=333.337.0.0">Git 课程</a>，<a href="https://www.bilibili.com/video/BV1ng4y1i7Uk?from=search&amp;seid=15804785393584948105&amp;spm_id_from=333.337.0.0">Python 课程</a>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="树莓派2B安装-OpenMediaVault"><a href="#树莓派2B安装-OpenMediaVault" class="headerlink" title="树莓派2B安装 OpenMediaVault"></a>树莓派2B安装 OpenMediaVault</h2><p>记录一下树莓派2B安装 OpenMediaVault 的踩坑过程。</p>
+<h3 id="直接刷-OMV-系统"><a href="#直接刷-OMV-系统" class="headerlink" title="直接刷 OMV 系统"></a>直接刷 OMV 系统</h3><p>由于 OMV 基于 Debian 系统开发，考虑直接在树莓派中安装 OMV 系统。安装过程参考<a href="https://shumeipai.nxez.com/2018/01/10/raspberry-pi-nas-openmediavault-installation.html">教程</a>。出现的问题：</p>
+<ol>
+<li><a href="https://sourceforge.net/projects/openmediavault/files/">官方下载</a>中已经不提供 Raspberry 版本的 OMV 系统，需要从<a href="https://shumeipai.nxez.com/2018/01/10/raspberry-pi-nas-openmediavault-installation.html">教程</a>中提供的网盘中下载镜像文件；</li>
+<li><a href="https://shumeipai.nxez.com/2018/01/10/raspberry-pi-nas-openmediavault-installation.html">教程</a>中提供的镜像 OMV 版本过低，对 docker 支持较差。</li>
+</ol>
+<p>为了方便后续折腾，放弃该方案，转而考虑在官方 Raspbian 系统中安装 OMV。</p>
+<h3 id="Raspbian-系统中安装-OMV"><a href="#Raspbian-系统中安装-OMV" class="headerlink" title="Raspbian 系统中安装 OMV"></a>Raspbian 系统中安装 OMV</h3><p>安装准备：</p>
+<ul>
+<li>一张16GB SD卡、网线、键盘；</li>
+<li>SD卡格式化工具 <a href="https://www.sdcard.org/downloads/formatter/">SD Memory Card Formatter</a>；</li>
+<li>镜像烧录工具 <a href="https://make.quwj.com/bookmark/327/go">Win32DiskImager</a>；</li>
+</ul>
+<p>Raspbian系统安装：</p>
+<ul>
+<li>下载<strong>32 位 Lite 版 Raspbian 镜像</strong>，需要注意的是，<strong>不要下载最新版的镜像</strong>，这会导致后面安装 OMV 时产生 package conflicts，故下载<a href="https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-09-30/">raspbian_lite-2019-09-30</a>；</li>
+<li>格式化 SD 卡，烧录 Raspbian lite 系统，并在根目录（/boot）下新建一个空文件 ssh 来开启 ssh 功能；</li>
+<li>网线一端插在路由器上一端插在树莓派上，链接好键盘，上电；</li>
+<li>在路由器后台获得树莓派 IP 地址，ssh 登陆树莓派；</li>
+<li>默认账号 pi 密码 raspberry，使用命令 passwd 更改密码；</li>
+</ul>
+<p>安装 OMV 系统</p>
+<ul>
+<li><p>将Raspbian 上的源更改为清华的源</p>
+<p>使用 sudo nano 打开  /etc/apt/sources.list，用下面代码替代原始代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib rpi</span><br><span class="line"></span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib rpi</span><br></pre></td></tr></table></figure>
+<p>使用 sudo nano 打开 /etc/apt/sources.list.d/raspi.list，用下面代码替代原始代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新 Linux 软件列表并重启树莓派</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt -y upgrade </span><br><span class="line"></span><br><span class="line">sudo rm -f /etc/systemd/network/99-default.link</span><br><span class="line"></span><br><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 OMV（github源可能会被墙，这里使用国内源）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O - https://cdn.jsdelivr.net/gh/OpenMediaVault-Plugi n-Developers/installScript@master/install | sudo bash</span><br></pre></td></tr></table></figure>
+<p>安装OMV 的过程比较久，耐心等待。</p>
+<p>安装完成后树莓派的 IP 可能会发生变化，重新找到树莓派 IP 并将其复制到浏览器中即可看到 OMV 的登陆界面</p>
+<p><img src="/2021/12/29/NAS/OMV.png" alt></p>
+<p>默认帐号 admin 密码 openmediavault。</p>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://shumeipai.nxez.com/download">https://shumeipai.nxez.com/download</a></li>
+<li><a href="https://shumeipai.nxez.com/2018/01/10/raspberry-pi-nas-openmediavault-installation.html">https://shumeipai.nxez.com/2018/01/10/raspberry-pi-nas-openmediavault-installation.html</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/263836823">https://zhuanlan.zhihu.com/p/263836823</a></li>
+<li><a href="https://www.bilibili.com/video/BV16y4y1B7rF">https://www.bilibili.com/video/BV16y4y1B7rF</a></li>
+</ul>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><h4 id="安装-transmission-时在-log-中发现-docker-与-libseccomp2-版本冲突"><a href="#安装-transmission-时在-log-中发现-docker-与-libseccomp2-版本冲突" class="headerlink" title="安装 transmission 时在 log 中发现 docker 与 libseccomp2 版本冲突"></a>安装 transmission 时在 log 中发现 docker 与 libseccomp2 版本冲突</h4><ul>
+<li>解决方法：升级 libseccomp2；</li>
+<li>参考：<a href="https://blog.samcater.com/fix-workaround-rpi4-docker-libseccomp2-docker-20/">https://blog.samcater.com/fix-workaround-rpi4-docker-libseccomp2-docker-20/</a></li>
+</ul>
+<h4 id="配置-trilium-notes-时出错"><a href="#配置-trilium-notes-时出错" class="headerlink" title="配置 trilium notes 时出错"></a>配置 trilium notes 时出错</h4><p>配置文件如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;2.1&apos;</span><br><span class="line">services:</span><br><span class="line">  trilium:</span><br><span class="line">    image: zadam/trilium</span><br><span class="line">    container_name: trilium</span><br><span class="line">    restart: always</span><br><span class="line">    environment:</span><br><span class="line">      - TRILIUM_DATA_DIR=/data</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;yourport:8080&quot;</span><br><span class="line">    volumes:</span><br><span class="line">      - /yourdir:/data</span><br></pre></td></tr></table></figure></p>
+<p>遇到报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: EACCES: permission denied, mkdir &apos;/data/log&apos;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>解决方法：赋予 volume 映射的文件夹权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 /yourdir</span><br></pre></td></tr></table></figure>
+<p>之后就能在 <code>/yourdir</code> 下看到 trilium 的<code>.db</code>文件和<code>log</code>。</p>
+</li>
+<li><p>参考：<a href="https://github.com/zadam/trilium/issues/1960">https://github.com/zadam/trilium/issues/1960</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2021/12/29/NAS/">NAS搭建</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Huag 的个人博客">Huag</a></p>
+  <p><span>发布时间:</span>2021年12月29日 - 00:00</p>
+  <p><span>最后更新:</span>2022年01月04日 - 18:04</p>
+  <p><span>原始链接:</span><a href="/2021/12/29/NAS/" title="NAS搭建">http://huagliu.github.io/2021/12/29/NAS/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://huagliu.github.io/2021/12/29/NAS/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      </div>
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OpenMediaVault/" rel="tag"><i class="fa fa-tag"></i> OpenMediaVault</a>
+          
+            <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/11/20/信号检测与估计--3/" rel="next" title="信号检测与估计--3">
+                <i class="fa fa-chevron-left"></i> 信号检测与估计--3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/12/31/Windows兼容Linux/" rel="prev" title="Windows兼容Linux">
+                Windows兼容Linux <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Huag</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NAS-搭建"><span class="nav-number">1.</span> <span class="nav-text">NAS 搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OMV"><span class="nav-number">1.1.</span> <span class="nav-text">OMV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内网穿透"><span class="nav-number">1.2.</span> <span class="nav-text">内网穿透</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker教程及容器推荐"><span class="nav-number">2.</span> <span class="nav-text">docker教程及容器推荐</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#树莓派2B安装-OpenMediaVault"><span class="nav-number">3.</span> <span class="nav-text">树莓派2B安装 OpenMediaVault</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接刷-OMV-系统"><span class="nav-number">3.1.</span> <span class="nav-text">直接刷 OMV 系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Raspbian-系统中安装-OMV"><span class="nav-number">3.2.</span> <span class="nav-text">Raspbian 系统中安装 OMV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">3.3.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-number">3.4.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-transmission-时在-log-中发现-docker-与-libseccomp2-版本冲突"><span class="nav-number">3.4.1.</span> <span class="nav-text">安装 transmission 时在 log 中发现 docker 与 libseccomp2 版本冲突</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-trilium-notes-时出错"><span class="nav-number">3.4.2.</span> <span class="nav-text">配置 trilium notes 时出错</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huag</span>
+
+  
+</div>
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'huagliu',
+            repo: 'huagliu.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '4cfb710f5ecaef4aac8e993e4f375dc7ce9fcb32',
+            
+                client_id: '5a3c8be33713b7cf5a11'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

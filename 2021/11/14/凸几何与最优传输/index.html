@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="凸几何,最优传输,">
+
+
+
+
+
+
+
+
+
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://xxxxxxx.xxx"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+<meta name="description" content="整理了顾险峰老师新作《最优传输理论与计算》中将凸几何与最优传输联系起来的过程。">
+<meta name="keywords" content="凸几何,最优传输">
+<meta property="og:type" content="article">
+<meta property="og:title" content="凸几何与最优传输">
+<meta property="og:url" content="http://huagliu.github.io/2021/11/14/凸几何与最优传输/index.html">
+<meta property="og:site_name" content="HUAG ZONE">
+<meta property="og:description" content="整理了顾险峰老师新作《最优传输理论与计算》中将凸几何与最优传输联系起来的过程。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-11-20T04:01:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="凸几何与最优传输">
+<meta name="twitter:description" content="整理了顾险峰老师新作《最优传输理论与计算》中将凸几何与最优传输联系起来的过程。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huagliu.github.io/2021/11/14/凸几何与最优传输/">
+
+
+
+
+
+  <title>凸几何与最优传输 | HUAG ZONE</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA<%%%%%%%%>', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HUAG ZONE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://huagliu.github.io/2021/11/14/凸几何与最优传输/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huag">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HUAG ZONE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">凸几何与最优传输</h1>
+        
+
+        <div class="post-meta">
+	
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-11-14T00:00:00+08:00">
+                2021-11-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Math/" itemprop="url" rel="index">
+                    <span itemprop="name">Math</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/11/14/凸几何与最优传输/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2021/11/14/凸几何与最优传输/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>整理了顾险峰老师新作《最优传输理论与计算》中将凸几何与最优传输联系起来的过程。</p>
+<a id="more"></a>
+<h2 id="凸几何"><a href="#凸几何" class="headerlink" title="凸几何"></a>凸几何</h2><h3 id="Minkowski-问题"><a href="#Minkowski-问题" class="headerlink" title="Minkowski 问题"></a>Minkowski 问题</h3><p>假设 $S$ 是 $ \mathbb{R}^3 $ 中一个闭凸曲面，则它的 Gauss 映射是可逆的，记为 $ N_K: S \rightarrow \mathbb{S} ^2 $. 因此我们可以用 Gauss 映射来参数化曲面，记为 $ S(y)$ ，$ y=N_K (x) \in \mathbb{S}  ^2 $. 响应的 Gauss 曲率表示为 $ K(y): = K(N_K ^{-1} (y)) $. 由 Gauss 映射的性质，我们有</p>
+<script type="math/tex; mode=display">
+\int_{\mathbb{S} ^2 }\frac{y}{K(y)} d A_{\mathbb{S}^2 }(y) = 0.</script><p>事实上，由 Gauss 曲率和 Gauss 映射的关系可以得到</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\int_{\mathbb{S} ^2 }\frac{y}{K(y)} d A_{\mathbb{S}^2 }(y) & = \int_S \frac{N_K(x)}{K(x)}\det(DN_K)(x)d A_S(x)\\
+& = \int_S N_K(x)d A_S(x)\\
+& = 0,
+\end{aligned}</script><p>最后一个等号成立是由于法向量在闭曲面上积分为零（可用散度定理证明）。</p>
+<p>​    定义 $ \mathbb{S}^2 $ 上的一个测度 $\nu$ 为 $ N_K $ 前推 $S$ 上的 Lebesgue 测度，即 $ d \nu := (N_K)_{\sharp}d A_S $. 于是凸曲面满足条件：</p>
+<script type="math/tex; mode=display">
+\int_{\mathbb{S}^2 }y d \nu (y)= \int_{\mathbb{S} ^2 }\frac{y}{K(y)} d A_{\mathbb{S}^2 }(y) = 0.\tag{1}</script><p>Minkowski 问题是上述过程的反命题，即</p>
+<blockquote>
+<p><strong>Minkowski 问题</strong></p>
+<p>给定 $ \mathbb{S}^2 $ 上的测度 $ \nu $ ，则是否存在闭曲面 $S$ 使得 (1) 式成立。</p>
+</blockquote>
+<p>我们可以构造球面上的一个胞腔分解 $ \mathbb{S}^2 = \cup_{i=1} ^n W _i  $，则对每个 $ W _i $ 计算向量</p>
+<script type="math/tex; mode=display">
+v _i = \int_{W _i }\frac{y}{K(y)} d A_{\mathbb{S}^2 }(y),</script><p>令 $ A_i = |v _i | $，$ w _i = v _i /A _i $，则离散 Minkowski 问题可表述为</p>
+<blockquote>
+<p><strong>离散 Minkowski 问题</strong></p>
+<p>寻找闭凸多面体使得其第$i$ 个面的法向量等于 $ w _i $，面积等于 $A_i $.  </p>
+</blockquote>
+<h3 id="Alexandrov-问题"><a href="#Alexandrov-问题" class="headerlink" title="Alexandrov 问题"></a>Alexandrov 问题</h3><p>Alexandrov 将离散 Minkowski 问题推广到无限凸多面体的情形。</p>
+<blockquote>
+<p><strong>定理</strong>（Alexandrov）</p>
+<p>假设 $\Omega$ 是 $ \mathbb{R}^d $ 中的凸多面体，内部非空，$ p _1 , \cdots , p _n \subset \mathbb{R}^d $ 是 $n$ 个不同的点，$ A _i , \cdots A _n &gt;0 $ 满足 $\sum_{i=1}^n A _i = Vol(\Omega) $，则存在一个高度向量 $h$，使得凸多面体 $ P(h) $ 每个余维是1的面的投影与 $\Omega$ 交集的体积为 $ A_i $ 即 $ w _i (h) = Vol(W _i (h) \cap \Omega ) = A _i,i =1, \cdots n$. 满足上述条件的高度向量相差一个常数向量 $c$。</p>
+<p><strong>证明</strong><br>令 $ \mu $ 为定义在 $\Omega$ 上的 Lebesgue测度，令 $ \nu = \sum_{i=1}^n A _i \delta (y - p _i ) $，令传输代价为 $ c(x,y) = \frac{1}{2} |x - y | ^2 $ 则由 Brenier 定理，存在凸函数 $u : \Omega \rightarrow \mathbb{R}  $，使得 $ \nabla u $ 是最优传输映射。此时 $u$ 定义了 $\Omega$ 的一个胞腔分解 $ W _i = (\nabla u ) ^{-1} (p _i ) $ 和高度向量 $h$ </p>
+<script type="math/tex; mode=display">
+u (x) = \max_{1\leq i\leq n}\{\langle p _i ,x\rangle- h _i  \}.</script></blockquote>
+<h3 id="推广的-Alexandrov-问题"><a href="#推广的-Alexandrov-问题" class="headerlink" title="推广的 Alexandrov 问题"></a>推广的 Alexandrov 问题</h3><blockquote>
+<p><strong>定理</strong>（推广 Alexandrov）</p>
+<p>设 $\Omega$ 是 $\mathbb{R} ^d $ 上的一个紧凸区域，$ p _1 , \cdots , p _n \subset \mathbb{R}^d $ 是 $n$ 个不同的点，$ \sigma : \Omega \rightarrow \mathbb{R}  $ 是一个密度函数。若 $ A _i , \cdots A _n &gt;0 $ 满足 $\sum_{i=1}^n A _i = \int_{\Omega}\sigma (x) d x $，则存在一个高度向量 $h$，使得 $ \int _{W _i (h) \cap \Omega} \sigma (x) d x = A _i , \forall i $. 满足上述条件的高度向量相差一个常数向量 $c$，并且高度向量 $h$ 是如下凸函数的最小值点</p>
+<script type="math/tex; mode=display">
+E (h) = \int_0 ^h \sum_{i = 1} ^n \left(\int_{W _i (h) \cap \Omega } \sigma (x) d x - A_i \right)d h _i,\tag{2}</script><p>此凸函数定义在开凸集 $ \mathcal{H} := \left\{h \in \mathbb{R}  ^n : \int_{W _i (h) \cap \Omega } \sigma (x) d x&gt;0, \forall i\right\}$.</p>
+</blockquote>
+<p>如果密度函数 $\sigma$ 等于 1，则为经典的 Alexandrov 定理。可以使用 Brenier 最优传输定理证明上述定理，书中使用变分原理来证明该问题，这样做的好处是为数值计算过程带来便利。</p>
+<p>使用变分法的前提是有以下命题</p>
+<blockquote>
+<p><strong>命题</strong></p>
+<p>设 $ \sigma : \Omega \rightarrow \mathbb{R}  $ 是定义在紧凸集上的连续函数，$ p _1 , \cdots , p _n \subset \mathbb{R}^d $ 是 $n$ 个不同的点，且 $h\in \mathbb{R}^d$ 使得对任意 $i$ 都有 $ Vol(W _i (h) \cap \Omega ) &gt;0 $ 则</p>
+<script type="math/tex; mode=display">
+w _i (h) : = \int_{W _i (h) \cap \Omega } \sigma (x) d x</script><p>是 $h$ 的可微函数。若 $ W _i (h) \cap \Omega $ 与 $ W _j (h) \cap \Omega $ 共用一个余维数为1的面 $ \Gamma _h (i,j) $ 则有</p>
+<script type="math/tex; mode=display">
+\frac{\partial w _i (h) }{\partial h _j }= - \frac{1}{|p _i - p _j |}\int_{\Gamma _h (i,j)}\sigma d A,\tag{3}</script><p>否则，偏导数为零。特别地，我们有</p>
+<script type="math/tex; mode=display">
+\frac{\partial w _i (h) }{\partial h _j }= \frac{\partial w _j (h) }{\partial h _i }.</script><p>若进一步有 $ \sum_{i=1}^n w _i (h) = const $，则</p>
+<script type="math/tex; mode=display">
+\frac{\partial w _i (h) }{\partial h _i }=-\sum_{j\neq i} \frac{\partial w _i (h) }{\partial h _j }.</script></blockquote>
+<p>有了以上命题，我们就可以用变分法来证明推广的 Alexandrov 问题。</p>
+<blockquote>
+<p><strong>命题</strong>（变分原理）</p>
+<p>设 $X\subset \mathbb{R}^n $ 是一个单连通开集，$ A (x) : X \rightarrow \mathbb{R}^n $ 是一个光滑函数，满足对称条件 $ \frac{\partial A _i (x) }{\partial x _j } = \frac{\partial A _j (x) }{\partial x _i }$，则对任意给定常数 $B\in \mathbb{R}^n  $，方程 $ A (x) = B $ 的解是以下函数的临界点</p>
+<script type="math/tex; mode=display">
+E (x) = \int _a ^x \sum_{i = 1}^n (A _i (s) - B _i )d s _i.</script></blockquote>
+<p>注：由对称性条件，上述积分是良定的。</p>
+<h2 id="最优传输问题"><a href="#最优传输问题" class="headerlink" title="最优传输问题"></a>最优传输问题</h2><p>最优传输映射 $ T :(\Omega , \mu ) \rightarrow (D, \nu ) $，其中 $\Omega$ 和 $D$ 是 $ \mathbb{R}^d  $ 中的一个紧凸域，$\mu$ 有连续密度 $ d \mu = f (x) d x $，$\nu$ 有连续密度 $ d \nu = g (x) d x $. 总质量 $ \int_\Omega f (x) d x = \int _D g (x) d x $.   考虑 $ L ^2 $ 成本函数 $ c(x,y) = \frac{1}{2} |x-y| ^2 $ 。由 Brenier 定理，最优传输映射为 $ T(x) = \nabla u (x) $，$u$ 为凸函数。</p>
+<p>在计算中，我们离散目标域和测度 $ (D, \nu ) $，即用 Dirac 测度 $ \nu ^{(k)} $ 来逼近 $\nu$，之后求解半离散最优传输问题得到 $ u^{(k)} $。由于 Monge-Ampere 方程的稳定性，$u^{(k)}$ 收敛到光滑解 $u$。我们对 $D$ 均匀采样，得到 $ \{y _i , \cdots , y _n \} $，计算由样本诱导的 Voronoi 图</p>
+<script type="math/tex; mode=display">
+W _i : = \left\{y \in \mathbb{R}^d : \frac{1}{2} |y - y _i |^2 \leq \frac{1}{2} |y - y _j |^2 , \forall j\right\}, \quad \mathbb{R}^d = \bigcup_{i = 1}^nW _i .</script><p>考虑 Dirac 测度</p>
+<script type="math/tex; mode=display">
+\sum_{i = 1} ^n = \nu _i \delta ( y - y _i ) , \quad \nu _i : = \int_{W _i \cap D} g (y) d y.</script><p>最优传输问题想找到 Kantorovich 势能 $ \varphi:   \{y _i , \cdots , y _n \} \rightarrow \mathbb{R}  $，来最大化</p>
+<script type="math/tex; mode=display">
+\max _\varphi \left\{F (\varphi ): = \int _X \varphi^c (x) d \mu (x) + \int _Y \varphi (y) d \nu (y) \right\},</script><p>其中， $ \varphi ^c $ 为 $ \varphi $ 的 $c$-变换</p>
+<script type="math/tex; mode=display">
+\varphi ^c (x) = \min_{i=1} ^n \{c ( x, y _i ) - \varphi _i \}.</script><blockquote>
+<p><strong>定义</strong>（$c$-Voronoi 胞腔分解）</p>
+<script type="math/tex; mode=display">
+W_{\varphi } (i) : = \left\{x \in X: c ( x, y _i ) - \varphi _i \leq c ( x , y _j ) - \varphi _j , \forall j\right\}, \quad X = \bigcup_{i = 1}^n W _\varphi (i) .</script></blockquote>
+<p>则 $ \varphi ^c  $ 可以写为</p>
+<script type="math/tex; mode=display">
+\varphi ^c (x) = c ( x, y _i ) - \varphi _i , \quad \forall x \in W _\phi (i) .</script><p>于是，能量泛函 $ F(\varphi ) $ 可写作</p>
+<script type="math/tex; mode=display">
+F(\varphi ) = \sum_{i = 1} ^n ( \nu_i - \mu ( W _\varphi (i) ) ) \varphi _i + \sum_{i = 1} ^n \int_{W _\varphi (i) }c ( x, y _i ) f (x) d x.\tag{4}</script><p>通过计算（非平凡）可以得到如下半离散最优传输定理</p>
+<blockquote>
+<p><strong>定理</strong>（半离散最优传输）</p>
+<p>符号同上，给定一个 $ C ^2 $ 的传输代价 $ c: X \times Y \rightarrow \mathbb{R}  $，半离散最优传输问题的 Kantorovich 对偶泛函定义如上，则其一阶偏导为</p>
+<script type="math/tex; mode=display">
+\frac{\partial F (\varphi )}{\partial \varphi _i }= \nu _i - \mu ( W _\varphi (i) ) ,</script><p>二阶偏导数为</p>
+<script type="math/tex; mode=display">
+\frac{\partial ^2 F (\varphi )}{\partial \varphi _j \partial \varphi _i } = \int_{W _\varphi (i)  \cap W _\varphi (j)  }\frac{f (x) }{|\nabla_x c ( x,y _i ) - \nabla _x c ( x, y _j ) |} d \mathcal{H} ^{d-1}(x).\tag{5}</script><p>更进一步，$ F (\varphi) $ 在空间 $ \{\varphi : \sum_{i = 1} ^n \varphi _i  = 1\}$ 中是严格凹的。</p>
+</blockquote>
+<p>通过比较（2）式与（4）式，（3）式与（5）式，我们发现求解半离散最优传输问题与求解 Alexandrov 问题一致，这就将凸几何中的问题与最优传输问题联系了起来。</p>
+<p>进一步地，由于$ F(\varphi) $ 是凸函数，且有显式的一阶、二阶偏导数，因此可以用 Newton 法或者梯度下降的方法进行求解。不过需要注意的是，迭代求解的过程需要不断更新 $c$-Voronoi 胞腔分解，这将是一个难点。</p>
+<p>综上所述，我们建立了如下关系</p>
+<pre class="mermaid">graph LR
+A[Minkowski问题] -->|推广| B[推广的Alexandrov问题]
+B ---|等价| C(半离散最优传输问题)
+C -->|逼近| D(最优传输问题)</pre>
+
+      
+    </div>
+    
+    
+    
+
+
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2021/11/14/凸几何与最优传输/">凸几何与最优传输</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Huag 的个人博客">Huag</a></p>
+  <p><span>发布时间:</span>2021年11月14日 - 00:00</p>
+  <p><span>最后更新:</span>2021年11月20日 - 12:01</p>
+  <p><span>原始链接:</span><a href="/2021/11/14/凸几何与最优传输/" title="凸几何与最优传输">http://huagliu.github.io/2021/11/14/凸几何与最优传输/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://huagliu.github.io/2021/11/14/凸几何与最优传输/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      </div>
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/凸几何/" rel="tag"><i class="fa fa-tag"></i> 凸几何</a>
+          
+            <a href="/tags/最优传输/" rel="tag"><i class="fa fa-tag"></i> 最优传输</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/22/Mac和Win互传文件/" rel="next" title="Mac 和 Win 在局域网下互传文件">
+                <i class="fa fa-chevron-left"></i> Mac 和 Win 在局域网下互传文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/11/20/信号检测与估计--0/" rel="prev" title="信号检测与估计--0">
+                信号检测与估计--0 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Huag</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#凸几何"><span class="nav-number">1.</span> <span class="nav-text">凸几何</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Minkowski-问题"><span class="nav-number">1.1.</span> <span class="nav-text">Minkowski 问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alexandrov-问题"><span class="nav-number">1.2.</span> <span class="nav-text">Alexandrov 问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推广的-Alexandrov-问题"><span class="nav-number">1.3.</span> <span class="nav-text">推广的 Alexandrov 问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最优传输问题"><span class="nav-number">2.</span> <span class="nav-text">最优传输问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huag</span>
+
+  
+</div>
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'huagliu',
+            repo: 'huagliu.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '4cfb710f5ecaef4aac8e993e4f375dc7ce9fcb32',
+            
+                client_id: '5a3c8be33713b7cf5a11'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

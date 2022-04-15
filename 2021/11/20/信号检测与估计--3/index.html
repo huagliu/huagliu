@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="信号滤波,">
+
+
+
+
+
+
+
+
+
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://xxxxxxx.xxx"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+<meta name="description" content="整理了赵树杰，赵建勋老师的《信号检测与估计》中的内容。第三篇整理信号滤波问题。">
+<meta name="keywords" content="信号滤波">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信号检测与估计--3">
+<meta property="og:url" content="http://huagliu.github.io/2021/11/20/信号检测与估计--3/index.html">
+<meta property="og:site_name" content="HUAG ZONE">
+<meta property="og:description" content="整理了赵树杰，赵建勋老师的《信号检测与估计》中的内容。第三篇整理信号滤波问题。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-11-20T03:03:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="信号检测与估计--3">
+<meta name="twitter:description" content="整理了赵树杰，赵建勋老师的《信号检测与估计》中的内容。第三篇整理信号滤波问题。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huagliu.github.io/2021/11/20/信号检测与估计--3/">
+
+
+
+
+
+  <title>信号检测与估计--3 | HUAG ZONE</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA<%%%%%%%%>', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HUAG ZONE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://huagliu.github.io/2021/11/20/信号检测与估计--3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huag">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HUAG ZONE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">信号检测与估计--3</h1>
+        
+
+        <div class="post-meta">
+	
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-11-20T10:45:00+08:00">
+                2021-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Radar/" itemprop="url" rel="index">
+                    <span itemprop="name">Radar</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/11/20/信号检测与估计--3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2021/11/20/信号检测与估计--3/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  474
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>整理了赵树杰，赵建勋老师的《信号检测与估计》中的内容。第三篇整理信号滤波问题。</p>
+<a id="more"></a>
+<h2 id="信号滤波"><a href="#信号滤波" class="headerlink" title="信号滤波"></a>信号滤波</h2><p>在信号估计中，我们假定被估计量的参量不随时间变化，属于静态估计。在实际问题中，如信号处理、图像处理、雷达目标跟踪、模式识别等，还需要对随时间变化的参量进行估计，这就是信号的波形估计，又称滤波理论。笼统地讲，滤波理论就是考虑如何设计滤波器尽可能抑制噪声，而把有用的信息提取出来。</p>
+<p>几种基本的信号波形估计为：滤波、预测和平滑。由观测 $x(t)$ 得到 $\hat{s}(t)$ 的过程称为滤波；由观测 $x(t)$ 得到 $\hat{s}(t+a)$ 的过程称为预测（外推）；由观测 $x(t)$ 得到 $\hat{s}(t-a)$ 的过程称为平滑（内插）。</p>
+<p>信号波形估计一般采用线性最优估计，例如维纳滤波和卡尔曼滤波。</p>
+<h3 id="维纳滤波"><a href="#维纳滤波" class="headerlink" title="维纳滤波"></a>维纳滤波</h3><p>设观测方程为</p>
+<script type="math/tex; mode=display">
+x(t) = s(t) + n(t), \quad 0\leq t\leq T.</script><p>最佳线性滤波问题就是根据观测信号 $x(t)$，按照线性最小均方误差准则，对 $g(t)$ 进行估计，以获得估计波形 $\hat{g}(t)$。</p>
+<p>进一步假设，$x(t)$ 和 $g(t)$ 都是零均值的平稳随机过程，而且二者是联合平稳的。假设估计 $\hat{g}(t)$ 是某个线性时不变系统对观测值 $x(t)$ 的响应，并考虑因果系统，则维纳滤波问题即求解最小均方误差下的系统函数 $h(t)$</p>
+<script type="math/tex; mode=display">
+\hat{g}(t) = \int^t_{-\infty }h(t-u)x(u)du.</script><p>由线性最小均方误差估计的正交性原理</p>
+<script type="math/tex; mode=display">
+E\left[\left(g(t)-\int^t_{-\infty }h(t-\tau)x(u)du\right)x(\tau)\right] = 0, \quad -\infty<\tau<t,</script><p>并令 $\eta=t-\tau$，$\lambda=t-u$ 可得</p>
+<script type="math/tex; mode=display">
+r_{xg}(\eta) = \int_0^{\infty }h(\lambda)r_x(\eta - \lambda)d\lambda, \quad  0<\eta<\infty,</script><p>上式被称为<strong>维纳－霍夫</strong>方程，是 $h(t)$ 在最小均方误差估计下需要满足的方程；系统 $h(t)$ 被称作<strong>维纳滤波器</strong>。</p>
+<p>直接求解维纳－霍夫方程是困难的，但如果输入 $x(t)$ 是一个白色过程，即 $r_x(\eta-\lambda)$ 是 $\delta$ 函数时，方程就易于求解。因此考虑先让观测 $x(t)$ 通过一个白化滤波器 $H_w(s)$ 然后再针对输出的白过程 $w(t)$ 设计维纳滤波器 $H_2(s)$ 使它的输出是 $\hat{g}(t)$。考虑如此组合的系统函数<strong>（此时 $H(s)$ 不一定满足维纳－霍夫方程）</strong></p>
+<script type="math/tex; mode=display">
+H(s) = H_w(s)H_2(s).</script><p>定义 $[P(s)]^+$ 为取 $P(s)$ 中零极点在 s 平面左边平面的部分，$[P(s)]^-$ 为取 $P(s)$ 中零极点在 s 平面右边平面的部分。</p>
+<p>根据系统输入输出功率谱密度的关系，可得</p>
+<script type="math/tex; mode=display">
+|H_w(s)|^2P_x(s)=1.</script><p>于是推出</p>
+<script type="math/tex; mode=display">
+H_w(s)=\frac{1}{P_x^+(s)}.</script><p>根据维纳－霍夫方程，</p>
+<script type="math/tex; mode=display">
+h_2(\eta) = r_{wg}(\eta),\quad 0<\eta<\infty</script><p>系统函数表示为</p>
+<script type="math/tex; mode=display">
+H_2(s) = [P_{wg}(s)]^+.</script><p>又因为</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+r_{wg}(\tau) &= E[w(t)g(t+\tau)]\\
+&= \int^{\infty }_{-\infty }h_w(\lambda)r_{xg}(\tau+\lambda)d\lambda\\
+&= \int^{\infty }_{-\infty }h^-_w(\lambda)r_{xg}(\tau-\lambda)d\lambda
+\end{aligned}</script><p>两边取傅立叶变换得到</p>
+<script type="math/tex; mode=display">
+P_{wg}(s) = H_w(-s)P_{xg}(s)=\frac{P_{xg}(s)}{P^-_x(s)}.</script><p>综上，</p>
+<script type="math/tex; mode=display">
+H(s) = \frac{1}{P^+_x(s)}\left[\frac{P_{xg}(s)}{P^-_x(s)}\right]^+.</script><p>对于离散情况，我们自然可以得到如下类似结果</p>
+<script type="math/tex; mode=display">
+H(z) = \frac{1}{P^+_x(z)}\left[\frac{P_{xg}(z)}{P^-_x(z)}\right]^+.</script><p>其单位脉冲响应为 $h(k) = IZT[H(z)]$，$0\leq k &lt;\infty $，这是一个无限长因果序列，在实际工程应用中因其不具有实时性而应用受限，因此通常考虑在时域上用长度为 $N$ 的有限长序列 $h(k)$ $0\leq k\leq N-1$ 来逼近离散维纳滤波器的单位脉冲响应，这就是<strong>离散维纳滤波器的时域解</strong>。</p>
+<p>此时，维纳－霍夫方程变为</p>
+<script type="math/tex; mode=display">
+r_{xg}(m) = \sum_{l=0}^{N-1}h(l)r_x(m-l), \quad 0\leq m\leq N-1.</script><p>解的矩阵形式为</p>
+<script type="math/tex; mode=display">
+h = R_x^{-1} r_{xg}.</script><p>上式实际上就是 $N$ 阶 FIR 滤波器的加权矢量。所以在实际工程应用当中常用这种具有有限长度单位脉冲响应的 FIR滤波器来实现维纳滤波。</p>
+<p>维纳滤波在理论上解决了平稳过程的最佳线性滤波问题。但有如下缺陷：</p>
+<ul>
+<li>其结果不易推广至非平稳过程中;</li>
+<li>对于矢量信号波形的滤波，由于谱因式分解将变得困难，故在实际中难以应用。</li>
+</ul>
+<h3 id="卡尔曼滤波"><a href="#卡尔曼滤波" class="headerlink" title="卡尔曼滤波"></a>卡尔曼滤波</h3><p>卡尔曼滤波从时域角度考虑最小均方误差准则下的线性滤波问题。由于当前基本采用数字信号处理，所以只考虑离散卡尔曼滤波。</p>
+<h4 id="（离散）状态方程"><a href="#（离散）状态方程" class="headerlink" title="（离散）状态方程"></a>（离散）状态方程</h4><script type="math/tex; mode=display">
+s_k = \Phi_{k,k-1}s_{k-1} + \Gamma _{k-1}w _{k-1},</script><p>其中，$ s_k $ 是 $k$ 时刻的状态矢量，$ \Phi _{k,k-1}$ 是系统从 $ k - 1 $ 时刻到 $k$ 时刻的一步状态转移矩阵，$ w_{k-1} $ 是 $ k- 1 $ 时刻的扰动噪声矢量（零均值白噪声），$ \Gamma _{k-1} $ 是 $ k- 1 $ 时刻的控制矩阵。</p>
+<h4 id="观测方程"><a href="#观测方程" class="headerlink" title="观测方程"></a>观测方程</h4><script type="math/tex; mode=display">
+x _k = H _k s _k + n _k,</script><p>其中，$  x_k $ 是 $k$ 时刻的观测信号矢量，$ H _k $ 是 $k$ 时刻的观测矩阵，$ n _k $ 是 $k$ 时刻的观测噪声矢量（零均值白噪声）。</p>
+<p>值得注意的是，一步状态转移矩阵、控制矩阵、观测矩阵、扰动噪声的协方差、观测噪声的协方差都是时变的，所以该模型适用于多维非平稳随机过程。</p>
+<h4 id="正交投影原理"><a href="#正交投影原理" class="headerlink" title="正交投影原理"></a>正交投影原理</h4><blockquote>
+<p><strong>定义</strong>（正交投影）<br>假设 $s$ 和 $x$ 分别是具有前二阶矩的 $M$ 维和 $N$ 维随机矢量。如果存在一个 $M$ 维的随机矢量 $ s^* $，满足</p>
+<ol>
+<li>$s^* = a+Bx$.</li>
+<li>$E(s*) = E(s) = \mu $.</li>
+<li>$E[(s-s^<em>)x^T]=0$.<br>则称 $ s^</em> $ 是 $s$ 在 $x$ 上的正交投影，记为 $ s^* = \hat{OP}[s|x]$.</li>
+</ol>
+</blockquote>
+<p>由于线性最小均方误差估计矢量满足上面三条（线性、无偏、误差正交），因此正交投影一定存在。正交投影具有以下重要性质：</p>
+<ul>
+<li>正交投影是唯一的，即正交投影就是线性最小均方误差；</li>
+<li>正交投影的线性可转换性和可叠加性<script type="math/tex; mode=display">
+\hat{OP}[A _1 s _1 + A _2 s _2 |x] = A _1 \hat{OP}[s _1 |x]+ A _2 \hat{OP}[s _2 |x].</script></li>
+<li>正交投影是可传递的，若<script type="math/tex; mode=display">
+x(k) = \begin{bmatrix}
+x(k-1) \\
+x _k  
+\end{bmatrix}</script></li>
+</ul>
+<p>则</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\hat{OP}[s|x(k)] & = \hat{OP}[s|x(k-1)]+\hat{OP}[\tilde{s}|\tilde{x}_k]\\
+& = \hat{OP}[s|x(k-1)] + E[\tilde{s}\tilde{x}_k ^T](E[\tilde{x}_k \tilde{x}_k ^T])^{-1} \tilde{x}_k, 
+\end{aligned}</script><p>其中，</p>
+<script type="math/tex; mode=display">
+\tilde{s} = s - \hat{OP}[s|x(k-1)], \quad \tilde{x}_k = x _k - \hat{OP}[x _k | x(k-1)].</script><p>上面三条重要性质为建立离散卡尔曼滤波奠定了基础。</p>
+<h4 id="离散卡尔曼滤波"><a href="#离散卡尔曼滤波" class="headerlink" title="离散卡尔曼滤波"></a>离散卡尔曼滤波</h4><p>在后文中，根据观测 $ x (k) $ 得到状态 $ s _j $ 的估计记为 $ \hat{s}_{j|k} $，估计误差记为 $ \tilde{s}_{j|k} = s _j - \hat{s}_{j|k} $。离散卡尔曼滤波根据新观测 $ x_k $ 和上一时刻的估计 $ \hat{s}_{k-1}: = \hat{s}_{k-1|k-1} $ 给出当前状态 $ \hat{s}_{k}$ 的递推估计。</p>
+<p>由正交投影定理，即求下式</p>
+<script type="math/tex; mode=display">
+\hat{s}_k = \hat{OP}[s _k |x(k-1)] + E[\tilde{s}_{k|k-1}\tilde{x}^T_{k|k-1}](E[\tilde{x}_{k|k-1}\tilde{x}^T_{k|k-1}])^{-1} \tilde{x}_{k|k-1},</script><p>其中，$  \hat{s}_{j|k} = \hat{OP}[s_j |x(k)] $.</p>
+<p>定义<strong>状态滤波的均方误差阵</strong>为 $ M_{k|k-1}: = E[\tilde{s}_{k|k-1}\tilde{s}_{k|k-1}^T] $，它是状态预测的精度指标。定义<strong>状态滤波的增益矩阵</strong>为 </p>
+<script type="math/tex; mode=display">
+K _k = M_{k|k-1}H _k ^T(H _k M_{k|k-1}H _k ^T + C_{n_k})^{-1}\tag{k1}</script><p>则经过推导 [1, 6.61节] 可得</p>
+<script type="math/tex; mode=display">
+\hat{s} _k = \Phi_{k,k-1}\hat{s}_{k-1} + K _k (x _k - H _k \Phi_{k,k-1}\hat{s}_{k-1}).\tag{k2}</script><p>为了可以迭代计算，只需求得均方误差阵 $ M _{k|k-1} $ 的迭代公式即可，通过计算有</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& M_{k|k-1} = \Phi _{k,k-1}M_{k-1}\Phi _{k,k-1}^T + \Gamma _{k-1}C_{w_{k-1}}\Gamma _{k-1} ^T,\\
+& M _{k-1} = (I - K_{k-1}H_{k-1} ) M_{k-1|k-2}.
+\end{aligned}\tag{k3}</script><p>综上，（k1）、（k2）、（k3）构成了离散卡尔曼滤波的迭代公式。</p>
+<h4 id="卡尔曼滤波与维纳滤波的区别："><a href="#卡尔曼滤波与维纳滤波的区别：" class="headerlink" title="卡尔曼滤波与维纳滤波的区别："></a>卡尔曼滤波与维纳滤波的区别：</h4><ul>
+<li>维纳滤波只适用于平稳随机过程，卡尔曼滤波可以适用于非平稳随机过程；</li>
+<li>维纳滤波根据全部过去的观测和当前的观测来估计信号波形，卡尔曼滤波只根据前一次的估计值和当前的观测来估计信号；</li>
+<li>维纳滤波求解最小均方误差准则下的线性系统函数，卡尔曼滤波通过假设状态方程得到递推的估计形式；具体来说，维纳滤波的信号模型 $H(s)$ 是从信号和噪声的相关函数中得到的，卡尔曼滤波的信号模型是状态方程和观测方程。</li>
+</ul>
+<h4 id="卡尔曼滤波的发散现象"><a href="#卡尔曼滤波的发散现象" class="headerlink" title="卡尔曼滤波的发散现象"></a>卡尔曼滤波的发散现象</h4><p>按照卡尔曼滤波理论，随着观测次数的增加，卡尔曼滤波的均方误差应该逐渐减小而最终趋于一个稳态值。但在实际应用中，状态滤波的均方误差会随着观测次数的增大而增大，这种现象称为卡尔曼滤波的发散现象。导致发散现象的原因是多方面的，例如系统的信号模型不精确，扰动噪声和观测噪声统计特性不准确等等。克服发散现象的方法有：</p>
+<ul>
+<li>选择合适的信号模型；</li>
+<li>自适应滤波法，即根据新息修正系统信号模型和噪声统计特性；</li>
+<li>渐消记忆滤波法和限定记忆滤波法，即利用上旧信息。</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>［1］赵树杰, 赵建勋. 信号检测与估计[M]. 北京：清华大学出版社(2005).</p>
+
+      
+    </div>
+    
+    
+    
+
+
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2021/11/20/信号检测与估计--3/">信号检测与估计--3</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Huag 的个人博客">Huag</a></p>
+  <p><span>发布时间:</span>2021年11月20日 - 10:45</p>
+  <p><span>最后更新:</span>2021年11月20日 - 11:03</p>
+  <p><span>原始链接:</span><a href="/2021/11/20/信号检测与估计--3/" title="信号检测与估计--3">http://huagliu.github.io/2021/11/20/信号检测与估计--3/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://huagliu.github.io/2021/11/20/信号检测与估计--3/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      </div>
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/信号滤波/" rel="tag"><i class="fa fa-tag"></i> 信号滤波</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/11/20/信号检测与估计--2/" rel="next" title="信号检测与估计--2">
+                <i class="fa fa-chevron-left"></i> 信号检测与估计--2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/12/29/NAS/" rel="prev" title="NAS搭建">
+                NAS搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Huag</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#信号滤波"><span class="nav-number">1.</span> <span class="nav-text">信号滤波</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#维纳滤波"><span class="nav-number">1.1.</span> <span class="nav-text">维纳滤波</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卡尔曼滤波"><span class="nav-number">1.2.</span> <span class="nav-text">卡尔曼滤波</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（离散）状态方程"><span class="nav-number">1.2.1.</span> <span class="nav-text">（离散）状态方程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#观测方程"><span class="nav-number">1.2.2.</span> <span class="nav-text">观测方程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正交投影原理"><span class="nav-number">1.2.3.</span> <span class="nav-text">正交投影原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#离散卡尔曼滤波"><span class="nav-number">1.2.4.</span> <span class="nav-text">离散卡尔曼滤波</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#卡尔曼滤波与维纳滤波的区别："><span class="nav-number">1.2.5.</span> <span class="nav-text">卡尔曼滤波与维纳滤波的区别：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#卡尔曼滤波的发散现象"><span class="nav-number">1.2.6.</span> <span class="nav-text">卡尔曼滤波的发散现象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">2.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huag</span>
+
+  
+</div>
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+
+  <script src="https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'huagliu',
+            repo: 'huagliu.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '4cfb710f5ecaef4aac8e993e4f375dc7ce9fcb32',
+            
+                client_id: '5a3c8be33713b7cf5a11'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
